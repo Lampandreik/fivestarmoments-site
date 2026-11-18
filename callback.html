@@ -25,6 +25,14 @@
 <script>
   const box = document.getElementById("url");
   box.value = location.href;
+  // Sign-in started from the dashboard's Connect TikTok button: hand the code straight back to it.
+  const state = new URLSearchParams(location.search).get("state") || "";
+  if (state.startsWith("dash.")) {
+    document.querySelector("h1").textContent = "Returning to your dashboard…";
+    document.getElementById("msg").textContent =
+      "If nothing happens, make sure the dashboard is open at http://localhost:8000, or copy the address below.";
+    location.replace("http://localhost:8000/tiktok/callback" + location.search);
+  }
   if (!location.search.includes("code=")) {
     document.getElementById("msg").textContent =
       "No sign-in code found in this address. If TikTok showed an error, start again with clipfarm auth tiktok.";
