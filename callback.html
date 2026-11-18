@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<meta name="referrer" content="no-referrer">
+<title>FiveStarMoments – Sign-in</title>
+<link rel="stylesheet" href="style.css">
+<style>
+  textarea { width: 100%; box-sizing: border-box; min-height: 120px; font: 14px/1.4 ui-monospace, monospace;
+             padding: 10px; border-radius: 8px; border: 1px solid var(--muted); background: transparent; color: var(--fg); }
+  button { margin-top: 10px; padding: 10px 16px; font: inherit; border-radius: 8px; border: 0; cursor: pointer;
+           background: var(--link); color: #fff; }
+</style>
+</head>
+<body>
+<main>
+<h1>Almost done</h1>
+<p id="msg">Copy the full address below and paste it back into the terminal where <code>clipfarm auth tiktok</code> is waiting.</p>
+<textarea id="url" readonly></textarea>
+<button id="copy" type="button">Copy</button>
+<p class="meta">This page only shows the address. It doesn't send anything anywhere.</p>
+</main>
+<script>
+  const box = document.getElementById("url");
+  box.value = location.href;
+  if (!location.search.includes("code=")) {
+    document.getElementById("msg").textContent =
+      "No sign-in code found in this address. If TikTok showed an error, start again with clipfarm auth tiktok.";
+  }
+  document.getElementById("copy").onclick = async () => {
+    box.select();
+    try { await navigator.clipboard.writeText(box.value); } catch (e) { document.execCommand("copy"); }
+    document.getElementById("copy").textContent = "Copied";
+  };
+</script>
+</body>
+</html>
